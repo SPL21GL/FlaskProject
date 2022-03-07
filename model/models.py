@@ -106,7 +106,7 @@ class Productline(db.Model):
     productLine = db.Column(db.String(50), primary_key=True)
     textDescription = db.Column(db.String(4000))
     htmlDescription = db.Column(db.String)
-    image = db.Column(db.MEDIUMBLOB)
+    #image = db.Column(db.MEDIUMBLOB)
 
 
 
