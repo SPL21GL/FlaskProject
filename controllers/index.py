@@ -9,4 +9,4 @@ index_blueprint = Blueprint('index_blueprint', __name__)
 def index():
     customers = db.session.query(Customer).all()
     
-    return render_template("index.html",customers=customers)
+    return render_template("index.html.j2",customers=customers)
