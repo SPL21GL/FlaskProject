@@ -18,7 +18,7 @@ class Customer(db.Model):
     addressLine2 = db.Column(db.String(50))
     city = db.Column(db.String(50), nullable=False)
     state = db.Column(db.String(50))
-    postalCode = db.Column(db.String(15))
+    postalCode = db.Column(db.String(20))
     country = db.Column(db.String(50), nullable=False)
     salesRepEmployeeNumber = db.Column(db.ForeignKey('employees.employeeNumber'), index=True)
     creditLimit = db.Column(db.Numeric(10, 2))
