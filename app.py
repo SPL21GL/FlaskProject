@@ -2,6 +2,8 @@ from flask import Flask
 from model.models import db
 from flask.templating import render_template
 from controllers.index import index_blueprint
+from controllers.products import products_blueprint
+
 import sqlalchemy
 app = Flask(__name__)
 app.secret_key = "VerySecretSecretKey"
@@ -13,5 +15,6 @@ db.init_app(app)
 
 #hier blueprint registrieren
 app.register_blueprint(index_blueprint)
+app.register_blueprint(products_blueprint)
 
 app.run(debug=True)
