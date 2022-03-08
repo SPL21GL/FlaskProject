@@ -2,6 +2,37 @@
 
 {%block body%}
 
-<h1>Products hier!</h1>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Code</th>
+      <th scope="col">Name</th>
+      <th scope="col">Productline</th>
+      <th scope="col">Scale</th>
+      <th scope="col">Vendor</th>
+      <th scope="col">In Stock</th>
+      <th scope="col">Buy Price</th>
+      <th scope="col">MSRP</th>
+    </tr>
+  </thead>
+  <tbody>
+
+    {% for product in products %}
+      <tr>
+        <td>{{product.productCode}}</td>
+        <td>{{product.productName}}</td>
+        <td>{{product.productLine}}</td>
+        <td>{{product.productScale}}</td>
+        <td>{{product.productVendor}}</td>
+        <td>{{product.quantityInStock}}</td>
+        <td>{{product.buyPrice}}</td>
+        <td>{{product.MSRP}}</td>
+      </tr>
+    {% endfor %}
+
+    
+  </tbody>
+</table>
 
 {%endblock%}
