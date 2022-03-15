@@ -14,24 +14,29 @@
       <th scope="col">In Stock</th>
       <th scope="col">Buy Price</th>
       <th scope="col">MSRP</th>
+      <th scope="col">Actions</th>
     </tr>
   </thead>
   <tbody>
 
     {% for product in products %}
-      <tr>
-        <td>{{product.productCode}}</td>
-        <td>{{product.productName}}</td>
-        <td>{{product.productLine}}</td>
-        <td>{{product.productScale}}</td>
-        <td>{{product.productVendor}}</td>
-        <td>{{product.quantityInStock}}</td>
-        <td>{{product.buyPrice}}</td>
-        <td>{{product.MSRP}}</td>
-      </tr>
+    <tr>
+      <td>{{product.productCode}}</td>
+      <td>{{product.productName}}</td>
+      <td>{{product.productLine}}</td>
+      <td>{{product.productScale}}</td>
+      <td>{{product.productVendor}}</td>
+      <td>{{product.quantityInStock}}</td>
+      <td>{{product.buyPrice}}</td>
+      <td>{{product.MSRP}}</td>
+      <td>
+        <a class="btn btn-outline-secondary" href="/products/edit?productCode={{product.productCode}}">✏️</a>
+        <a class="btn btn-outline-secondary" href="#" onclick="deleteProduct('{{product.productCode}}'); return false;">🗑️</a>
+      </td>
+    </tr>
     {% endfor %}
 
-    
+
   </tbody>
 </table>
 
