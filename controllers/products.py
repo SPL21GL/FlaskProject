@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, redirect, request
 from flask.templating import render_template
 from flask import Blueprint
 import sqlalchemy
@@ -28,10 +28,25 @@ def products_add():
     if request.method == 'POST':
         
         if addProductForm.validate_on_submit():
-            print("gültig")
-            return render_template("products_add.html",productlines=productlines, form = addProductForm)
+            #hier in db einfügen
+            newProduct = Product()
+
+            newProduct.productCode = addProductForm.productCode.data
+            newProduct.productName = addProductForm.productName.data
+            newProduct.productLine = addProductForm.productLine.data
+            newProduct.productScale = addProductForm.productScale.data
+            newProduct.productVendor = addProductForm.productVendor.data
+            newProduct.productDescription = addProductForm.productDescription.data
+            newProduct.quantityInStock = addProductForm.quantityInStock.data
+            newProduct.buyPrice = addProductForm.buyPrice.data
+            newProduct.MSRP = addProductForm.MSRP.data
+
+            db.session.add(newProduct)
+            db.session.commit()
+
+            return redirect("/products")
         else:
-            raise "Fatal"
+            return render_template("products_add.html",productlines=productlines,form = addProductForm)
     else:
         return render_template("products_add.html",productlines=productlines,form = addProductForm)
 

@@ -5,7 +5,7 @@ from wtforms.fields import DecimalField
 from wtforms import validators
 
 class AddProductForm(FlaskForm):
-    productCode = StringField("productCode")
+    productCode = StringField("productCode",[validators.InputRequired()])
     productName = StringField("productName")
     productLine = StringField("productLine")
     productScale = StringField("productScale")
