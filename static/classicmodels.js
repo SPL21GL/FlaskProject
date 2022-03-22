@@ -1,5 +1,10 @@
 function deleteProduct(element) {
-    console.log(element.parentElement.submit());
+
+    if(window.confirm("Wollen Sie das Item wirklich löschen"))
+    {
+        element.parentElement.submit();
+    }
+
 }
 
 /* 
