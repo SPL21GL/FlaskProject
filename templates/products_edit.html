@@ -21,14 +21,7 @@
 
     <div class="mb-3">
         <label for="productLine" class="form-label">Product Line</label>
-        <select class="form-select" aria-label="Default select example" id="productLine" name="productLine">
-            <option selected>Open this select menu</option>
-            {% for productline in productlines %}
-            <option value="{{productline.productLine}}">
-                {{productline.productLine}}
-            </option>
-            {% endfor %}
-        </select>
+        {{form.productLine(class_="form-control")}}
     </div>
 
     <div class="mb-3">

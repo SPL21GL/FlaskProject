@@ -21,9 +21,12 @@ def products():
 @products_blueprint.route("/products/add", methods=["GET","POST"])
 def products_add():
     session : sqlalchemy.orm.scoping.scoped_session = db.session
-    productlines = session.query(Productline).order_by(Productline.productLine).all()
     
     addProductForm = ProductForm()
+    
+    productlines = session.query(Productline).order_by(Productline.productLine).all()
+    product_line_list = [(p.productLine, p.productLine) for p in productlines]
+    addProductForm.productLine.choices = product_line_list
 
     if request.method == 'POST':
         
@@ -53,9 +56,13 @@ def products_add():
 @products_blueprint.route("/products/edit", methods=["GET","POST"])
 def products_edit():
     session : sqlalchemy.orm.scoping.scoped_session = db.session
-    productlines = session.query(Productline).order_by(Productline.productLine).all()
-    
+
     editProductForm = ProductForm()
+
+    productlines = session.query(Productline).order_by(Productline.productLine).all()
+    product_line_list = [(p.productLine, p.productLine) for p in productlines]
+    editProductForm.productLine.choices = product_line_list
+
     productCode = request.args["productCode"]
 
     #item laden (wie kann man einen datensatz lesen)
