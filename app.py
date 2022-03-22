@@ -1,6 +1,5 @@
 from flask import Flask
 from model.models import db
-from flask.templating import render_template
 from controllers.index import index_blueprint
 from controllers.products import products_blueprint
 from flask_wtf.csrf import CSRFProtect
