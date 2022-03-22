@@ -7,7 +7,7 @@ from wtforms import validators
 class ProductForm(FlaskForm):
     productCode = StringField("productCode",[validators.InputRequired()])
     productName = StringField("productName")
-    productLine =  SelectField("productLine") #StringField("productLine")
+    productLine =  SelectField("productLine")
 
     productScale = StringField("productScale")
     productVendor = StringField("productVendor")

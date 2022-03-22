@@ -1,7 +1,8 @@
-from flask import Flask, redirect, request
+from flask import Flask, redirect, request, flash
 from flask.templating import render_template
 from flask import Blueprint
 import sqlalchemy
+from forms.ProductDeleteForm import ProductDeleteForm
 from forms.ProductForm import ProductForm
 from model.models import Product, Productline, db,Customer
 
@@ -15,7 +16,7 @@ def products():
     #alle products laden
     products = session.query(Product).order_by(Product.productCode).all()
 
-    return render_template("products.html", products = products)
+    return render_template("products/products.html", products = products)
 
 
 @products_blueprint.route("/products/add", methods=["GET","POST"])
@@ -49,9 +50,9 @@ def products_add():
 
             return redirect("/products")
         else:
-            return render_template("products_add.html",productlines=productlines,form = addProductForm)
+            return render_template("products/products_add.html",productlines=productlines,form = addProductForm)
     else:
-        return render_template("products_add.html",productlines=productlines,form = addProductForm)
+        return render_template("products/products_add.html",productlines=productlines,form = addProductForm)
 
 @products_blueprint.route("/products/edit", methods=["GET","POST"])
 def products_edit():
@@ -95,4 +96,21 @@ def products_edit():
         editProductForm.buyPrice.data = product_to_edit.buyPrice
         editProductForm.MSRP.data = product_to_edit.MSRP
 
-        return render_template("products_edit.html",productlines=productlines,form = editProductForm)
+        return render_template("products/products_edit.html",productlines=productlines,form = editProductForm)
+
+@products_blueprint.route("/products/delete", methods=["post"])
+def deleteProduct():
+    deleteItemFormObj = ProductDeleteForm()
+    if deleteItemFormObj.validate_on_submit():
+
+        productCodeToDelete = deleteItemFormObj.productCode.data
+        productToDelete = db.session.query(Product).filter(Product.productCode == productCodeToDelete)
+        productToDelete.delete()
+        
+        db.session.commit()
+    else:
+        print("Fatal Error")
+    
+    flash(f"Product with id {productCodeToDelete} has been deleted")    
+
+    return redirect("/products")
