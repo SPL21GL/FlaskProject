@@ -2,6 +2,9 @@
 
 {%block body%}
 
+<h2>Add Product</h2>
+
+
 
 <table class="table">
   <thead>
@@ -31,7 +34,11 @@
       <td>{{product.MSRP}}</td>
       <td>
         <a class="btn btn-outline-secondary" href="/products/edit?productCode={{product.productCode}}">✏️</a>
-        <a class="btn btn-outline-secondary" href="#" onclick="deleteProduct('{{product.productCode}}'); return false;">🗑️</a>
+        <form action="/products/delete" method="post">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+          <input type="hidden" name="productCode" id="productCode" value="{{product.productCode}}">
+          <a class="btn btn-outline-secondary" href="#" onclick="deleteProduct(this); return false;">🗑️</a>
+        </form>
       </td>
     </tr>
     {% endfor %}
