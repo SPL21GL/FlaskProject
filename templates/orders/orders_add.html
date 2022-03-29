@@ -1,0 +1,46 @@
+{%extends 'base.html'%}
+
+{%block body%}
+
+<h2>Add new Order</h2>
+
+<form method="post">
+    {{form.csrf_token}}
+
+    <!-- {{ form.errors }} -->
+
+    <div class="mb-3">
+        <label for="orderDate" class="form-label">Order Date</label>
+        {{form.orderDate(class_="form-control")}}
+    </div>
+
+    <div class="mb-3">
+        <label for="requiredDate" class="form-label">Required Date</label>
+        {{form.requiredDate(class_="form-control")}}
+    </div>
+
+    <div class="mb-3">
+        <label for="shippedDate" class="form-label">Shipped Date</label>
+        {{form.shippedDate(class_="form-control")}}
+    </div>
+
+    <div class="mb-3">
+        <label for="status" class="form-label">Status</label>
+        {{form.status(class_="form-control")}}
+    </div>
+
+    <div class="mb-3">
+        <label for="comments" class="form-label">Comments</label>
+        {{form.comments(class_="form-control")}}
+    </div>
+
+    <div class="mb-3">
+        <label for="customer" class="form-label">Customer</label>
+        {{form.customer(class_="form-control")}}
+    </div>
+
+    
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+{%endblock%}

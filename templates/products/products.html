@@ -2,16 +2,6 @@
 
 {%block body%}
 
-{% with messages = get_flashed_messages() %}
-{% if messages %}
-<div class="alert alert-warning alert-dismissible fade show" role="alert">
-  {% for message in messages %}
-  {{ message }}
-  {% endfor %}
-  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-</div>
-{% endif %}
-{% endwith %}
 
 
 <h2>All Products</h2>

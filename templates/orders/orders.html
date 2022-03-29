@@ -1,0 +1,47 @@
+{%extends 'base.html'%}
+
+{%block body%}
+
+
+<h2>All Orders</h2>
+
+<a href="/orders/add" class="btn btn-outline-success">➕ Add New Order</a>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Order Number</th>
+      <th scope="col">Order Date</th>
+      <th scope="col">Required Date</th>
+      <th scope="col">Shipped Date</th>
+      <th scope="col">Status</th>
+      <th scope="col">Customer</th>
+      <th scope="col">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+
+    {% for order in orders %}
+    <tr>
+      <td>{{order.orderNumber}}</td>
+      <td>{{order.orderDate}}</td>
+      <td>{{order.requiredDate}}</td>
+      <td>{{order.shippedDate}}</td>
+      <td>{{order.status}}</td>
+      <td>{{order.customerNumber}}</td>
+      <td>
+        <a class="btn btn-outline-secondary" href="/orders/edit?orderNumber={{order.orderNumber}}">✏️</a>
+        <form action="/orders/delete" method="post" style="display: inline;">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+          <input type="hidden" name="orderNumber" id="orderNumber" value="{{order.orderNumber}}">
+          <a class="btn btn-outline-secondary" href="#" onclick="deleteOrder(this); return false;">🗑️</a>
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+
+
+  </tbody>
+</table>
+
+{%endblock%}

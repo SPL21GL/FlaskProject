@@ -6420,7 +6420,7 @@ insert  into `orderdetails`(`orderNumber`,`productCode`,`quantityOrdered`,`price
 DROP TABLE IF EXISTS `orders`;
 
 CREATE TABLE `orders` (
-  `orderNumber` int(11) NOT NULL,
+  `orderNumber` int(11) NOT NULL AUTO_INCREMENT,
   `orderDate` date NOT NULL,
   `requiredDate` date NOT NULL,
   `shippedDate` date DEFAULT NULL,
