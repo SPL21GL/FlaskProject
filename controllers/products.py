@@ -1,7 +1,10 @@
 from flask import Flask, redirect, request, flash
 from flask.templating import render_template
 from flask import Blueprint
+
 import sqlalchemy
+import sqlalchemy.orm
+
 from forms.ProductDeleteForm import ProductDeleteForm
 from forms.ProductForm import ProductForm
 from model.models import Product, Productline, db,Customer
@@ -11,7 +14,7 @@ products_blueprint = Blueprint('products_blueprint', __name__)
 @products_blueprint.route("/products")
 def products():
     #workaround für sesssion Autocomplete
-    session : sqlalchemy.orm.scoping.scoped_session = db.session
+    session : sqlalchemy.orm.Session = db.session
     
     #alle products laden
     products = session.query(Product).order_by(Product.productCode).all()
