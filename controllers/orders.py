@@ -4,6 +4,7 @@ from flask import Blueprint
 import sqlalchemy
 import flask_sqlalchemy
 from forms.OrderForm import OrderForm
+from forms.OrderDeleteForm import OrderDeleteForm
 from model.models import Customer, Order, db
 
 orders_blueprint = Blueprint('orders_blueprint', __name__)
@@ -58,7 +59,7 @@ def orders_edit():
     edit_order_form = OrderForm()
 
     customers = session.query(Customer).order_by(Customer.customerName).all()
-    customers_list = [(c.customerNumber, c.customerName) for c in customers]
+    customers_list = [(str(c.customerNumber), c.customerName) for c in customers]
     edit_order_form.customer.choices = customers_list
 
     order_number = request.args["orderNumber"]
@@ -69,14 +70,16 @@ def orders_edit():
 
     if request.method == "POST":
         if edit_order_form.validate_on_submit():
-            order_number = edit_order_form.orderNumber.data
+            #order_number = edit_order_form.orderNumber.data
             # update data here
             order_to_edit.orderDate = edit_order_form.orderDate.data
             order_to_edit.requiredDate = edit_order_form.requiredDate.data
             order_to_edit.shippedDate = edit_order_form.shippedDate.data
             order_to_edit.status = edit_order_form.status.data
             order_to_edit.comments = edit_order_form.comments.data
-   
+            
+            print(f"CustomerBefore: {order_to_edit.customerNumber}")
+            print(f"Customer: {edit_order_form.customer.data}")
             order_to_edit.customerNumber = int(edit_order_form.customer.data)
 
             db.session.commit()
@@ -90,8 +93,7 @@ def orders_edit():
         edit_order_form.shippedDate.data = order_to_edit.shippedDate
         edit_order_form.status.data = order_to_edit.status
         edit_order_form.comments.data = order_to_edit.comments
-        edit_order_form.customer.data = order_to_edit.customer
-
+        edit_order_form.customer.data = str(order_to_edit.customerNumber)
         return render_template("orders/orders_edit.html", customers=customers, form=edit_order_form)
 
 
@@ -101,14 +103,14 @@ def deleteorder():
     if delete_item_form_obj.validate_on_submit():
 
         order_code_to_delete = delete_item_form_obj.productCode.data
-        product_to_delete = db.session.query(Product).filter(
-            Product.productCode == product_code_to_delete)
+        product_to_delete = db.session.query(Order).filter(
+            Order.orderNumber == order_code_to_delete)
         product_to_delete.delete()
 
         db.session.commit()
     else:
         print("Fatal Error")
 
-    flash(f"Product with id {product_code_to_delete} has been deleted")
+    flash(f"Product with id {order_code_to_delete} has been deleted")
 
     return redirect("/products")
