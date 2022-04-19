@@ -102,15 +102,15 @@ def deleteorder():
     delete_item_form_obj = OrderDeleteForm()
     if delete_item_form_obj.validate_on_submit():
 
-        order_code_to_delete = delete_item_form_obj.productCode.data
-        product_to_delete = db.session.query(Order).filter(
-            Order.orderNumber == order_code_to_delete)
-        product_to_delete.delete()
+        order_number_to_delete = int(delete_item_form_obj.orderNumber.data)
+        order_to_delete = db.session.query(Order).filter(
+            Order.orderNumber == order_number_to_delete)
+        order_to_delete.delete()
 
         db.session.commit()
     else:
         print("Fatal Error")
 
-    flash(f"Product with id {order_code_to_delete} has been deleted")
+    flash(f"Product with id {order_number_to_delete} has been deleted")
 
-    return redirect("/products")
+    return redirect("/orders")
