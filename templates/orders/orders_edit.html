@@ -45,4 +45,27 @@
     <button type="submit" class="btn btn-primary">Submit</button>
 </form>
 
+<h2>Order Items:</h2>
+
+<table class="table">
+    <thead>
+      <tr>
+        <th scope="col">LineNumber</th>
+        <th scope="col">Product</th>
+        <th scope="col">Quantity</th>
+        <th scope="col">Price/Piece</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for detail in order_details %}
+        <tr>
+            <td>{{detail.orderLineNumber}}</td>
+            <td>{{detail.productCode}}</td>
+            <td>{{detail.quantityOrdered}}</td>
+            <td>{{detail.priceEach}}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
 {%endblock%}

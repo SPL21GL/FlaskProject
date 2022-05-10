@@ -2,10 +2,12 @@ from flask import Flask, redirect, request, flash
 from flask.templating import render_template
 from flask import Blueprint
 import sqlalchemy
-import flask_sqlalchemy
+import sqlalchemy.orm
+
 from forms.OrderForm import OrderForm
 from forms.OrderDeleteForm import OrderDeleteForm
-from model.models import Customer, Order, db
+from model.models import Customer, Order, Orderdetail, db, Orderdetail
+
 
 orders_blueprint = Blueprint('orders_blueprint', __name__)
 
@@ -55,14 +57,17 @@ def orders_add():
 @orders_blueprint.route("/orders/edit", methods=["GET", "POST"])
 def orders_edit():
     session: sqlalchemy.orm.scoping.scoped_session = db.session
-
+    
     edit_order_form = OrderForm()
-
+    
     customers = session.query(Customer).order_by(Customer.customerName).all()
     customers_list = [(str(c.customerNumber), c.customerName) for c in customers]
     edit_order_form.customer.choices = customers_list
-
+    
     order_number = request.args["orderNumber"]
+
+    order_detail_query : sqlalchemy.orm.query.Query = session.query(Orderdetail)
+    order_details = order_detail_query.filter(Orderdetail.orderNumber == order_number).order_by(Orderdetail.orderLineNumber).all()
 
     # item laden (wie kann man einen datensatz lesen)
     order_to_edit = session.query(Order).filter(
@@ -94,7 +99,7 @@ def orders_edit():
         edit_order_form.status.data = order_to_edit.status
         edit_order_form.comments.data = order_to_edit.comments
         edit_order_form.customer.data = str(order_to_edit.customerNumber)
-        return render_template("orders/orders_edit.html", customers=customers, form=edit_order_form)
+        return render_template("orders/orders_edit.html", customers=customers, form=edit_order_form, order_details = order_details)
 
 
 @orders_blueprint.route("/orders/delete", methods=["post"])
