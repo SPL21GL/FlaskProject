@@ -1,13 +1,18 @@
 # FlaskProject - Classic Models
 
-Details hier - Todo
+Flask Project using the MVC Pattern.
+
+MVC is realized using:
+- Controller Classes and Blueprints
+- Jinja2 Templates with Bootstrap
+- SQLAlchemy with MySql
 
 ## Quellen
 
-- [ER Diagramm](docs/MySQL-Sample-Database-Diagram-PDF-A4.pdf)
-- [Datenbank](https://www.mysqltutorial.org/mysql-sample-database.aspx)
+- [ER Diagram](docs/MySQL-Sample-Database-Diagram-PDF-A4.pdf)
+- [Database](https://www.mysqltutorial.org/mysql-sample-database.aspx)
 
-# INFI2022
+# Forks - Quality
 
 | Name  | Badge |
 | ------------- | ------------- |
