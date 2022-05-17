@@ -3,6 +3,7 @@ from model.models import db
 from controllers.index import index_blueprint
 from controllers.products import products_blueprint
 from controllers.orders import orders_blueprint
+from controllers.orderdetails import orderdetails_blueprint
 
 from flask_wtf.csrf import CSRFProtect
 
@@ -21,5 +22,6 @@ db.init_app(app)
 app.register_blueprint(index_blueprint)
 app.register_blueprint(products_blueprint)
 app.register_blueprint(orders_blueprint)
+app.register_blueprint(orderdetails_blueprint)
 
 app.run(debug=True)

@@ -1,0 +1,60 @@
+{%extends 'base.html'%}
+
+{%block body%}
+
+<h2>Edit Orderdetail Item</h2>
+
+<form method="post">
+    {{form.csrf_token}}
+
+    <!-- {{ form.errors }} -->
+
+    <div class="mb-3">
+        <label for="productCode" class="form-label">Code</label>
+        {{form.productCode(class_="form-control",readonly=True)}}
+    </div>
+
+    <div class="mb-3">
+        <label for="productName" class="form-label">Name</label>
+        {{form.productName(class_="form-control")}}
+    </div>
+
+    <div class="mb-3">
+        <label for="productLine" class="form-label">Product Line</label>
+        {{form.productLine(class_="form-control")}}
+    </div>
+
+    <div class="mb-3">
+        <label for="productScale" class="form-label">Scale</label>
+        {{form.productScale(class_="form-control")}}
+    </div>
+
+    <div class="mb-3">
+        <label for="productVendor" class="form-label">Vendor</label>
+        {{form.productVendor(class_="form-control")}}
+    </div>
+
+    <div class="mb-3">
+        <label for="productDescription" class="form-label">Description</label>
+        {{form.productDescription(class_="form-control")}}
+    </div>
+
+    <div class="mb-3">
+        <label for="quantityInStock" class="form-label">Quantity In Stock</label>
+        {{form.quantityInStock(class_="form-control")}}
+    </div>
+
+    <div class="mb-3">
+        <label for="buyPrice" class="form-label">Buy Price</label>
+        {{form.buyPrice(class_="form-control")}}
+    </div>
+
+    <div class="mb-3">
+        <label for="MSRP" class="form-label">MSRP</label>
+        {{form.MSRP(class_="form-control")}}
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+{%endblock%}

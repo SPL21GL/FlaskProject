@@ -46,6 +46,7 @@
 </form>
 
 <h2>Order Items:</h2>
+<a href="/orderdetails/add" class="btn btn-outline-success">➕ Add New Order Item</a>
 
 <table class="table">
     <thead>
@@ -54,6 +55,7 @@
         <th scope="col">Product</th>
         <th scope="col">Quantity</th>
         <th scope="col">Price/Piece</th>
+        <th scope="col">Actions</th>
       </tr>
     </thead>
     <tbody>
@@ -63,6 +65,15 @@
             <td>{{detail.productCode}}</td>
             <td>{{detail.quantityOrdered}}</td>
             <td>{{detail.priceEach}}</td>
+            <td>
+                <a class="btn btn-outline-secondary" href="/orderdetails/edit?orderNumber={{detail.orderNumber}}&productCode={{detail.productCode}}">✏️</a>
+                <form action="/orderdetails/delete" method="post" style="display: inline;">
+                  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                  <input type="hidden" name="orderNumber" id="orderNumber" value="{{detail.orderNumber}}">
+                  <input type="hidden" name="productCode" id="productCode" value="{{detail.productCode}}">
+                  <a class="btn btn-outline-secondary" href="#" onclick="deleteDetailOrder(this); return false;">🗑️</a>
+                </form>
+              </td>
         </tr>
     {% endfor %}
     </tbody>
