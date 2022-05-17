@@ -7,7 +7,7 @@ from wtforms import validators, HiddenField
 
 
 class OrderdetailForm(FlaskForm):
-    orderNumber = SelectField("orderNumber")
+    orderNumber = StringField("orderNumber")
     productCode = SelectField("productCode")
     quantityOrdered = DecimalField("quantityOrdered")
     priceEach = DecimalField("priceEach")

@@ -6,63 +6,48 @@ import sqlalchemy.orm
 
 from forms.OrderForm import OrderForm
 from forms.OrderdetailDeleteForm import OrderdetailDeleteForm
-from model.models import Customer, Order, Orderdetail, db, Orderdetail
+from forms.OrderdetailForm import OrderdetailForm
+from model.models import Customer, Order, Orderdetail, Product, db, Orderdetail
 
 
 orderdetails_blueprint = Blueprint('orderdetails_blueprint', __name__)
 
 
-
-
 @orderdetails_blueprint.route("/orderdetails/edit", methods=["GET", "POST"])
 def orders_edit():
     session: sqlalchemy.orm.scoping.scoped_session = db.session
-    
-    edit_order_form = OrderForm()
-    
-    customers = session.query(Customer).order_by(Customer.customerName).all()
-    customers_list = [(str(c.customerNumber), c.customerName) for c in customers]
-    edit_order_form.customer.choices = customers_list
-    
-    order_number = request.args["orderNumber"]
 
-    order_detail_query : sqlalchemy.orm.query.Query = session.query(Orderdetail)
-    order_details = order_detail_query.filter(Orderdetail.orderNumber == order_number).order_by(Orderdetail.orderLineNumber).all()
+    order_detail_form = OrderdetailForm()
+    products = session.query(Product).order_by(Product.productCode).all()
+    product_list = [(str(p.productCode), p.productName)
+                    for p in products]
+    order_detail_form.productCode.choices = product_list
 
-    # item laden (wie kann man einen datensatz lesen)
-    order_to_edit = session.query(Order).filter(
-        Order.orderNumber == order_number).first()
+    order_number = int(request.args["orderNumber"])
+    product_code = request.args["productCode"]
+    order_detail_form.productCode.choices
+    order_detail_query: sqlalchemy.orm.query.Query = session.query(Orderdetail)
+    order_detail_to_edit: Orderdetail = order_detail_query.filter(
+        sqlalchemy.and_(
+            Orderdetail.orderNumber == order_number,
+            Orderdetail.productCode == product_code)).first()
 
     if request.method == "POST":
-        if edit_order_form.validate_on_submit():
-            #order_number = edit_order_form.orderNumber.data
-            # update data here
-            order_to_edit.orderDate = edit_order_form.orderDate.data
-            order_to_edit.requiredDate = edit_order_form.requiredDate.data
-            order_to_edit.shippedDate = edit_order_form.shippedDate.data
-            order_to_edit.status = edit_order_form.status.data
-            order_to_edit.comments = edit_order_form.comments.data
-            
-            print(f"CustomerBefore: {order_to_edit.customerNumber}")
-            print(f"Customer: {edit_order_form.customer.data}")
-            order_to_edit.customerNumber = int(edit_order_form.customer.data)
+        if order_detail_form.validate_on_submit():
+
+            order_detail_to_edit.priceEach = order_detail_form.priceEach.data
+            order_detail_to_edit.quantityOrdered = order_detail_form.quantityOrdered.data
 
             db.session.commit()
         return redirect("/orders")
     else:
-        edit_order_form.orderNumber.data = order_to_edit.orderNumber
+        order_detail_form.orderNumber.data = order_detail_to_edit.orderNumber
+        order_detail_form.productCode.data = order_detail_to_edit.productCode
+        order_detail_form.orderLineNumber.data = order_detail_to_edit.orderLineNumber
+        order_detail_form.priceEach.data = order_detail_to_edit.priceEach
+        order_detail_form.quantityOrdered.data = order_detail_to_edit.quantityOrdered
 
-        # fill here
-        edit_order_form.orderDate.data = order_to_edit.orderDate
-        edit_order_form.requiredDate.data = order_to_edit.requiredDate
-        edit_order_form.shippedDate.data = order_to_edit.shippedDate
-        edit_order_form.status.data = order_to_edit.status
-        edit_order_form.comments.data = order_to_edit.comments
-        edit_order_form.customer.data = str(order_to_edit.customerNumber)
-        return render_template("orders/orders_edit.html", customers=customers, form=edit_order_form, order_details = order_details)
-
-
-
+        return render_template("order_details/order_detail_edit.html", form=order_detail_form)
 
 
 @orderdetails_blueprint.route("/orderdetails/delete", methods=["post"])

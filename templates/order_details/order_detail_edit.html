@@ -10,49 +10,30 @@
     <!-- {{ form.errors }} -->
 
     <div class="mb-3">
-        <label for="productCode" class="form-label">Code</label>
-        {{form.productCode(class_="form-control",readonly=True)}}
+        <label for="orderLineNumber" class="form-label">OrderLineNumber</label>
+        <input type="text" class="form-control" name="orderLineNumber" id="orderLineNumber" value="{{form.orderLineNumber.data}}" readonly>
     </div>
 
     <div class="mb-3">
-        <label for="productName" class="form-label">Name</label>
-        {{form.productName(class_="form-control")}}
+        <label for="orderNumber" class="form-label">OrderNr.</label>
+        <input type="text" class="form-control" name="orderNumber" id="orderNumber" value="{{form.orderNumber.data}}" readonly>
     </div>
 
     <div class="mb-3">
-        <label for="productLine" class="form-label">Product Line</label>
-        {{form.productLine(class_="form-control")}}
+        <label for="productCode" class="form-label">ProductCode</label>
+        {{form.productCode(class_="form-control",readonly=True,disabled=True)}}
     </div>
 
     <div class="mb-3">
-        <label for="productScale" class="form-label">Scale</label>
-        {{form.productScale(class_="form-control")}}
+        <label for="priceEach" class="form-label">Price/Each</label>
+        {{form.priceEach(class_="form-control")}}
     </div>
 
     <div class="mb-3">
-        <label for="productVendor" class="form-label">Vendor</label>
-        {{form.productVendor(class_="form-control")}}
+        <label for="quantityOrdered" class="form-label">Quantity Ordered</label>
+        {{form.quantityOrdered(class_="form-control")}}
     </div>
 
-    <div class="mb-3">
-        <label for="productDescription" class="form-label">Description</label>
-        {{form.productDescription(class_="form-control")}}
-    </div>
-
-    <div class="mb-3">
-        <label for="quantityInStock" class="form-label">Quantity In Stock</label>
-        {{form.quantityInStock(class_="form-control")}}
-    </div>
-
-    <div class="mb-3">
-        <label for="buyPrice" class="form-label">Buy Price</label>
-        {{form.buyPrice(class_="form-control")}}
-    </div>
-
-    <div class="mb-3">
-        <label for="MSRP" class="form-label">MSRP</label>
-        {{form.MSRP(class_="form-control")}}
-    </div>
 
     <button type="submit" class="btn btn-primary">Submit</button>
 </form>
