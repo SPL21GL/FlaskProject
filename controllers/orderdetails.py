@@ -40,7 +40,8 @@ def orders_edit():
             order_detail_to_edit.quantityOrdered = order_detail_form.quantityOrdered.data
 
             db.session.commit()
-        return redirect("/orders")
+            return redirect("/orders/edit?orderNumber=" + str(order_number))
+
     else:
         order_detail_form.orderNumber.data = order_detail_to_edit.orderNumber
         order_detail_form.productCode.data = order_detail_to_edit.productCode
@@ -80,11 +81,12 @@ def order_details_add():
     order_number = int(request.args["orderNumber"])
     session: sqlalchemy.orm.scoping.scoped_session = db.session
     add_order_form = OrderdetailForm()
-    #max_line_nr
 
-    query : sqlalchemy.orm.Query = session.query(sqlalchemy.func.max(Orderdetail.orderLineNumber)).filter(Orderdetail.orderNumber == order_number)
+    query: sqlalchemy.orm.Query = session.query(sqlalchemy.func.max(
+        Orderdetail.orderLineNumber)).filter(Orderdetail.orderNumber == order_number)
     max_line_nr = query.scalar()
-    
+    if not max_line_nr:
+        max_line_nr = 0
 
     products = session.query(Product).order_by(Product.productCode).all()
     product_list = [(str(p.productCode), p.productName)
@@ -108,7 +110,7 @@ def order_details_add():
             return redirect("/orders/edit?orderNumber=" + str(order_number))
 
         else:
-            return render_template("order_details/order_detail_add.html", form=add_order_form)
+            print("Fatal Error")
     else:
         add_order_form.orderNumber.data = order_number
         add_order_form.orderLineNumber.data = max_line_nr + 1
