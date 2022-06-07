@@ -1,8 +1,7 @@
 from flask_wtf import FlaskForm
-from wtforms.fields.datetime import DateField
-from wtforms.fields.simple import BooleanField, StringField, TextAreaField
-from wtforms.fields import DecimalField, SelectField
+from wtforms.fields.simple import StringField
 from wtforms import validators
 
+
 class ProductDeleteForm(FlaskForm):
-    productCode = StringField("productCode",[validators.InputRequired()])
+    productCode = StringField("productCode", [validators.InputRequired()])

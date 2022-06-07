@@ -20,7 +20,3 @@ function deleteDetailOrder(element) {
     }
 }
 
-
-/* 
-document.querySelector("a[href='/products']").classList.add("active")
-*/

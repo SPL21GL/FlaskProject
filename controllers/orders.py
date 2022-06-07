@@ -49,7 +49,8 @@ def orders_add():
 
             return redirect("/orders")
         else:
-            return render_template("orders/orders_add.html", customers=customers, form=add_order_form)
+            return render_template("orders/orders_add.html", customers=customers,
+                                   form=add_order_form)
     else:
         return render_template("orders/orders_add.html", customers=customers, form=add_order_form)
 
@@ -59,7 +60,6 @@ def orders_edit():
     session: sqlalchemy.orm.scoping.scoped_session = db.session
 
     edit_order_form = OrderForm()
-    
     customers = session.query(Customer).order_by(Customer.customerName).all()
     customers_list = [(str(c.customerNumber), c.customerName)
                       for c in customers]

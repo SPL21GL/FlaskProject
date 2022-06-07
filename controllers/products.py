@@ -1,13 +1,12 @@
-from flask import Flask, redirect, request, flash
-from flask.templating import render_template
-from flask import Blueprint
-
 import sqlalchemy
 import sqlalchemy.orm
 
+from flask import redirect, request, flash
+from flask.templating import render_template
+from flask import Blueprint
 from forms.ProductDeleteForm import ProductDeleteForm
 from forms.ProductForm import ProductForm
-from model.models import Product, Productline, db, Customer
+from model.models import Product, Productline, db
 
 products_blueprint = Blueprint('products_blueprint', __name__)
 
@@ -55,9 +54,11 @@ def products_add():
 
             return redirect("/products")
         else:
-            return render_template("products/products_add.html", productlines=productlines, form=add_product_form)
+            return render_template("products/products_add.html", productlines=productlines,
+                                   form=add_product_form)
     else:
-        return render_template("products/products_add.html", productlines=productlines, form=add_product_form)
+        return render_template("products/products_add.html", productlines=productlines,
+                               form=add_product_form)
 
 
 @products_blueprint.route("/products/edit", methods=["GET", "POST"])
@@ -105,7 +106,8 @@ def products_edit():
         edit_product_form.buyPrice.data = product_to_edit.buyPrice
         edit_product_form.MSRP.data = product_to_edit.MSRP
 
-        return render_template("products/products_edit.html", productlines=productlines, form=edit_product_form)
+        return render_template("products/products_edit.html", productlines=productlines,
+                               form=edit_product_form)
 
 
 @products_blueprint.route("/products/delete", methods=["post"])

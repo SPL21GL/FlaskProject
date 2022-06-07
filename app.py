@@ -7,7 +7,6 @@ from controllers.orderdetails import orderdetails_blueprint
 
 from flask_wtf.csrf import CSRFProtect
 
-import sqlalchemy
 app = Flask(__name__)
 app.secret_key = "VerySecretSecretKey"
 
@@ -18,7 +17,7 @@ csrf = CSRFProtect(app)
 
 db.init_app(app)
 
-#hier blueprint registrieren
+# hier blueprint registrieren
 app.register_blueprint(index_blueprint)
 app.register_blueprint(products_blueprint)
 app.register_blueprint(orders_blueprint)

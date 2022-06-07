@@ -1,14 +1,12 @@
-from flask import Flask, redirect, request, flash
-from flask.templating import render_template
-from flask import Blueprint
 import sqlalchemy
 import sqlalchemy.orm
 
-from sqlalchemy.sql import functions
-from forms.OrderForm import OrderForm
+from flask import redirect, request, flash
+from flask.templating import render_template
+from flask import Blueprint
 from forms.OrderdetailDeleteForm import OrderdetailDeleteForm
 from forms.OrderdetailForm import OrderdetailForm
-from model.models import Customer, Order, Orderdetail, Product, db, Orderdetail
+from model.models import Orderdetail, Product, db
 
 
 orderdetails_blueprint = Blueprint('orderdetails_blueprint', __name__)
