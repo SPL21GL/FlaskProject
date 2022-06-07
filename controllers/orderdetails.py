@@ -4,6 +4,7 @@ from flask import Blueprint
 import sqlalchemy
 import sqlalchemy.orm
 
+from sqlalchemy.sql import functions
 from forms.OrderForm import OrderForm
 from forms.OrderdetailDeleteForm import OrderdetailDeleteForm
 from forms.OrderdetailForm import OrderdetailForm
@@ -71,3 +72,45 @@ def deleteorder():
     flash(f"Product with id {product_code_to_delete} has been deleted")
 
     return redirect("/orders/edit?orderNumber=" + str(order_number_to_delete))
+
+
+@orderdetails_blueprint.route("/orderdetails/add", methods=["GET", "POST"])
+def order_details_add():
+
+    order_number = int(request.args["orderNumber"])
+    session: sqlalchemy.orm.scoping.scoped_session = db.session
+    add_order_form = OrderdetailForm()
+    #max_line_nr
+
+    query : sqlalchemy.orm.Query = session.query(sqlalchemy.func.max(Orderdetail.orderLineNumber)).filter(Orderdetail.orderNumber == order_number)
+    max_line_nr = query.scalar()
+    
+
+    products = session.query(Product).order_by(Product.productCode).all()
+    product_list = [(str(p.productCode), p.productName)
+                    for p in products]
+    add_order_form.productCode.choices = product_list
+
+    if request.method == 'POST':
+
+        if add_order_form.validate_on_submit():
+            new_order_detail = Orderdetail()
+
+            new_order_detail.orderNumber = add_order_form.orderNumber.data
+            new_order_detail.productCode = add_order_form.productCode.data
+            new_order_detail.orderLineNumber = add_order_form.orderLineNumber.data
+            new_order_detail.priceEach = add_order_form.priceEach.data
+            new_order_detail.quantityOrdered = add_order_form.quantityOrdered.data
+
+            db.session.add(new_order_detail)
+            db.session.commit()
+
+            return redirect("/orders/edit?orderNumber=" + str(order_number))
+
+        else:
+            return render_template("order_details/order_detail_add.html", form=add_order_form)
+    else:
+        add_order_form.orderNumber.data = order_number
+        add_order_form.orderLineNumber.data = max_line_nr + 1
+
+        return render_template("order_details/order_detail_add.html", form=add_order_form)

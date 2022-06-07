@@ -1,0 +1,41 @@
+{%extends 'base.html'%}
+
+{%block body%}
+
+<h2>Edit Orderdetail Item</h2>
+
+<form method="post">
+    {{form.csrf_token}}
+
+    <!-- {{ form.errors }} -->
+
+    <div class="mb-3">
+        <label for="orderLineNumber" class="form-label">OrderLineNumber</label>
+        <input type="text" class="form-control" name="orderLineNumber" id="orderLineNumber" value="{{form.orderLineNumber.data}}">
+    </div>
+
+    <div class="mb-3">
+        <label for="orderNumber" class="form-label">OrderNr.</label>
+        <input type="text" class="form-control" name="orderNumber" id="orderNumber" value="{{form.orderNumber.data}}" readonly>
+    </div>
+
+    <div class="mb-3">
+        <label for="productCode" class="form-label">ProductCode</label>
+        {{form.productCode(class_="form-control")}}
+    </div>
+
+    <div class="mb-3">
+        <label for="priceEach" class="form-label">Price/Each</label>
+        {{form.priceEach(class_="form-control")}}
+    </div>
+
+    <div class="mb-3">
+        <label for="quantityOrdered" class="form-label">Quantity Ordered</label>
+        {{form.quantityOrdered(class_="form-control")}}
+    </div>
+
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+{%endblock%}

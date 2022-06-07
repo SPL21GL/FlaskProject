@@ -59,7 +59,7 @@ def orders_edit():
     session: sqlalchemy.orm.scoping.scoped_session = db.session
 
     edit_order_form = OrderForm()
-
+    
     customers = session.query(Customer).order_by(Customer.customerName).all()
     customers_list = [(str(c.customerNumber), c.customerName)
                       for c in customers]
